@@ -24,7 +24,6 @@ Route::get('/register', 'AdminController@register');
 Route::post('/register-submit', 'AdminController@registerSubmit');
 
 
-
 Route::group(['middleware' => 'admin',], function(){
 
 	Route::get('/subject',   'SubjectController@subject');

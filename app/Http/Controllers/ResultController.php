@@ -31,12 +31,145 @@ class ResultController extends Controller
 
    
     public function studentResultPdf(Request $request){
-    	$students = Student::all();    	
-    	
-    	$pdf = PDF::loadView('layouts.studentResult', ['students'=>$students]);
-    	$pdf->setPaper('A4', 'portrate');
-    	return $pdf->stream('resutlAll.pdf');
-        //return $pdf->download('resutlAll.pdf');
+    	$students = Student::all();
+
+        $str = "";
+        foreach ($students as $student) {
+            
+            $str .= "<center><h1><b>Manikchak High Madrasah(H.S.)</b></h1>
+                    <h4>Lalgola * Murshidabad</h4>
+                    <b>Progress Report</b> for <b>Class XI Annual Exam-2017</b></center>";
+
+
+
+            $str .= "<table width='100%'><tr><td>";
+            $str .= "<td><h3>Name: ".$student->name. " [Class Roll: ".$student->roll."]</h3>";
+            $str .= "<h4>Registration No: ".$student->reg."</h4></td>";
+            $str .= "<td><div class='col-xs-4'><center><img src='qrcode.png'></center></div></td></tr>";
+            $str .= "</table>";
+            $str .= "<table border='1' width='100%'>
+            <tr>
+                <th rowspan='2'></th>
+                <th rowspan='2' class='text-center'>Subject</th>
+                <th colspan='2' class='text-center'>Full Marks</th>
+                <th colspan='2' class='text-center'>Pass Marks</th>
+                <th colspan='3' class='text-center'>Obtained Marks</th>
+                <th rowspan='2' class='text-center'>Grade</th>
+            </tr>
+            <tr>
+
+                <th class='text-center'>Theory</th>
+                <th class='text-center'>Project</th>
+                <th class='text-center'>Theory</th>
+                <th class='text-center'>Project</th>
+                <th class='text-center'>Theory</th>
+                <th class='text-center'>Project</th>
+                <th class='text-center'>Total</th>
+            </tr>";
+
+            foreach ($student->studies as $study) {
+            $str .= "<tr>";
+                $str .= "<td rowspan='2'>XX</td>";
+                $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->subj:'')."</td>";
+                $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->fmTh:'')."</td>";
+                $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->fmPr:'')."</td>";
+                $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->pmTh:'')."</td>";
+                $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->pmPr:'')."</td>";
+                $flag = false;
+                foreach ($study->marks as $mark) {
+                    $flag = true;
+                    $str .= "<td >".(int)$mark->thmark."</td>";
+                    $str .= "<td >".(int)$mark->prmark."</td>";
+                    $str .= "<td >".(int)($mark->thmark+$mark->prmark)."</td>";
+                    $str .= "<td rowspan='2'></td>";  
+                   
+                }
+                if($flag == false){
+                    $str .= "<td >a</td>";
+                    $str .= "<td >b</td>";
+                    $str .= "<td >c</td>";
+                    $str .= "<td rowspan='2'></td>";
+                }
+                $str .= "</tr>";
+                
+                $str .= "<tr>";
+                $str .= "<td colspan='3'>YY</td>";
+            $str .= "</tr>";
+            }
+
+            $str .= "<tr>";
+            $str .= "<td colspan='6'>Overall Result</td>";
+            $str .= "<td colspan='2'>Grand Total</td>";
+            $str .= "<td></td>";
+            $str .= "<td></td>";
+            $str .= "</tr>";
+
+            $str .= "<tr>";
+            $str .= "<td colspan='10'>In Word: </td>";
+            $str .= "</tr>";
+
+            $str .= "</table><br><br><br>";
+
+            $str .= "<table width='100%'>
+                        <thead><tr>
+                            <th >Class Teacher</th>
+                            <th >Head of the Institution</th>        
+                        </tr></thead>
+                        <tbody>
+                            <tr>
+                            <td>Class XI</td>
+                            <td>Manikchak High Madrasah(H.S.)</td>
+                            </tr>
+                        </tbody>
+                    </table>";
+
+
+            $str .= "<br><br><br><table border='1'>
+                <thead>
+                    <tr>
+                    <th colspan='8'>        
+                    Subjec-wise marks and grade are shown in the Mark Sheet. Classification of Grade is given bellow:       
+                    </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>90-100:O [Outstanding]</td>
+                    <td>88-89: A+ [Excelent]</td>
+                    <td>70-79: A [Very Good]</td>
+                    <td>60-69: B+ [Good]</td>
+                    <td>50-59: B [Satisfactory]</td>
+                    <td>40-49: C [Fair]</td>
+                    <td>30-39: P [Passed]</td>
+                    <td>Bellow 39: F [Failed]</td>
+                </tr>
+                </tbody>
+            </table>";
+
+
+            // $str =  "<h1>Hello<br>thi is test.</h1>
+            //          <div style='page-break-after:always;'></div> 
+            //          <h1>Hello<br>thi is test.</h1>";
+
+
+            // for($i=0; $i<10; $i++){
+            //    $str = $str. $i."<div style='page-break-after:always;'>hello</div>"."Hello<br>";
+            // }
+        $str .= "<div style='page-break-after:always;'></div>";
+        
+        }
+            $pdf = PDF::loadhtml($str);
+        	$pdf->setPaper('A4', 'portrate');
+        	//$pdf = PDF::loadView('layouts.studentResult', ['students'=>$students]);
+            //$pdf = PDF::loadhtml("<h1>Hello1</h1>");
+        	
+        	//return $pdf->stream('resutlAll.pdf');
+
+        
+
+        
+        return $pdf->download('resutlAll.pdf');
         //return view('layouts.studentResult')->with('students', $students);
     }
 

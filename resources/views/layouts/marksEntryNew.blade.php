@@ -8,44 +8,6 @@
 @section('content')	
 	<h2>Marks Entry for Class: {{$clss}} and Subject:<em> {{$subj}}</em></h2>
 	
-<!-- <table class="table table-bordered" id="marks">
-<thead>
-	<tr>
-		<th>Sl No</th>
-		<th>Name</th>
-		<th>Reg. No</th>
-		<th>Th Marks</th>
-		<th>Pr Marks</th>
-		<th>Total</th>
-		<th>Action</th>
-	</tr>
-</thead>
-@foreach($clsses->subjects as $subject)
-	@if($subject->subj == $subj)		
-		@foreach($subject->studies as $study)
-		<tbody>
-			<tr id="{{$study->student->reg}}">
-				<td id="stid"><input type="hidden" name="stid" id="sid" value="{{$study->id}}">{{$study->id}}</td>
-				<td id="name">{{$study->student->name}}</td>
-				<td id="regi">{{$study->student->reg}}</td>
-				<td id="thmr"><input type="text" class="form-control input-sm" name="thmr" id="thm" value="{{$study->marks[0]->thmark or ''}}"></td>
-				<td id="prmr"><input type="text" class="form-control" name="prmr" id="prm" value="{{$study->marks[0]->prmark or ''}}"></td>
-				<td></td>
-				<td id="action">
-				@if(isset($study->marks[0]->thmark))
-					<button class="btn btn-success" data-datac="{{$study->student->reg}}">Update</button>
-				@else
-					<button class="btn btn-primary" data-datac="{{$study->student->reg}}">Save</button>
-				
-				@endif
-				</td>
-			</tr>
-		</tbody>
-		@endforeach
-		
-	@endif
-@endforeach
-</table> -->
 
 
 <h3>Total Students: {{$test->total()}}</h3>

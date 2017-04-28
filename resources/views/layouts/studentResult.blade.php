@@ -92,7 +92,6 @@
 <br><br>
 
 
-
 <table class="table">
 	<thead>
 		<th class="text-center">Class Teacher</th>
@@ -129,7 +128,7 @@
 
 
 <div style="page-break-after:always;"></div> 
-@break
+@break{{-- <<<<<<<<<<<<====================<<<<<<<<<<<<<<<< --}}
 @endforeach
 
 
