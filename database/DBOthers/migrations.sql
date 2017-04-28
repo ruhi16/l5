@@ -1,0 +1,13 @@
+BEGIN TRANSACTION;
+DROP TABLE IF EXISTS "migrations";
+CREATE TABLE "migrations" ("id" integer not null primary key autoincrement, "migration" varchar not null, "batch" integer not null);
+INSERT INTO "migrations" VALUES(16,'2014_10_12_000000_create_users_table',1);
+INSERT INTO "migrations" VALUES(17,'2014_10_12_100000_create_password_resets_table',1);
+INSERT INTO "migrations" VALUES(18,'2017_02_09_015809_create_subjects_table',1);
+INSERT INTO "migrations" VALUES(19,'2017_02_14_095727_create_students_table',1);
+INSERT INTO "migrations" VALUES(20,'2017_02_14_100419_create_studies_table',1);
+INSERT INTO "migrations" VALUES(21,'2017_02_24_055730_create_marks_table',1);
+INSERT INTO "migrations" VALUES(22,'2017_02_24_060110_create_exams_table',1);
+INSERT INTO "migrations" VALUES(23,'2017_03_03_082445_create_shrenies_table',1);
+INSERT INTO "migrations" VALUES(24,'2017_03_21_144259_add-shreny_id',2);
+COMMIT;
