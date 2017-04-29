@@ -66,23 +66,28 @@ class ResultController extends Controller
                 <th class='text-center'>Project</th>
                 <th class='text-center'>Total</th>
             </tr>";
-
+            $gTotal = 0; $min=100; $sl=0;$count = 0;
             foreach ($student->studies as $study) {
+
             $str .= "<tr>";
-                $str .= "<td rowspan='2'>XX</td>";
+                $str .= "<td rowspan='2'>".(++$sl)."</td>";
                 $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->subj:'')."</td>";
                 $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->fmTh:'')."</td>";
                 $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->fmPr:'')."</td>";
                 $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->pmTh:'')."</td>";
                 $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->pmPr:'')."</td>";
                 $flag = false;
+                
                 foreach ($study->marks as $mark) {
-                    $flag = true;
+                    $flag = true; $count++;
                     $str .= "<td >".(int)$mark->thmark."</td>";
                     $str .= "<td >".(int)$mark->prmark."</td>";
                     $str .= "<td >".(int)($mark->thmark+$mark->prmark)."</td>";
                     $str .= "<td rowspan='2'></td>";  
-                   
+                    $gTotal += (int)($mark->thmark+$mark->prmark);
+                    if( ($mark->thmark+$mark->prmark) < $min ){
+                        $min = ($mark->thmark+$mark->prmark);
+                    }
                 }
                 if($flag == false){
                     $str .= "<td >a</td>";
@@ -100,8 +105,8 @@ class ResultController extends Controller
             $str .= "<tr>";
             $str .= "<td colspan='6'>Overall Result</td>";
             $str .= "<td colspan='2'>Grand Total</td>";
-            $str .= "<td></td>";
-            $str .= "<td></td>";
+            $str .= "<td>".($count > 5 ? $gTotal-$min : $gTotal)."</td>";
+            $str .= "<td>".$min."/".$count."</td>";
             $str .= "</tr>";
 
             $str .= "<tr>";
@@ -157,7 +162,7 @@ class ResultController extends Controller
             //    $str = $str. $i."<div style='page-break-after:always;'>hello</div>"."Hello<br>";
             // }
         $str .= "<div style='page-break-after:always;'></div>";
-        
+        break;
         }
             $pdf = PDF::loadhtml($str);
         	$pdf->setPaper('A4', 'portrate');
