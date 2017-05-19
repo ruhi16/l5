@@ -43,6 +43,8 @@ Route::group(['middleware' => 'admin',], function(){
 
 	Route::get('/test' , 'SubjectController@test');
 	Route::get('/selectSubject', 'SubjectController@selectSubject');
+  Route::post('/updateRoll', 'SubjectController@updateRoll');
+
 
 	Route::post('updateIndividualMarks', 'ResultController@updateIndividualMarks');
 
@@ -51,6 +53,7 @@ Route::group(['middleware' => 'admin',], function(){
 
 	Route::get('/reportDetails', 'ResultController@reportDetails');
 	Route::get('/studentResultPdf', 'ResultController@studentResultPdf');
+	Route::get('/studentResultIndPdf', 'ResultController@studentResultIndPdf');
 	Route::get('/studentRegisterPdf', 'ResultController@studentRegisterPdf');
 	Route::get('/selectSubjectPdf', 'ResultController@selectSubjectPdf');
 	Route::get('/studentSubRegisterPdf', 'ResultController@studentSubRegisterPdf');
@@ -67,7 +70,7 @@ Route::group(['middleware' => 'admin',], function(){
 
 	Route::get('/students', 'StudentController@students');
 	Route::get('/addStudent','AdminController@addStudent');
-	Route::get('/editStudent/{n}', 
+	Route::get('/editStudent/{n}',
 		['as' => 'group', 'uses' => 'AdminController@getShow']
 	)->where(['n'=>"[0-9]+"]);
 
@@ -88,10 +91,10 @@ Route::group(['middleware' => 'admin',], function(){
 
 
 	Route::get('/dashboard','AdminController@dashboard');
-	
+
 
 	Route::get('/logout',function(){
-		session()->flush();   	
+		session()->flush();
 	    return redirect()->to('/home');
 	});
 });

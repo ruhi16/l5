@@ -16,8 +16,8 @@ class StudentController extends Controller
     	$allStud = Student::all();
     	$allSubj = Subject::all();
         $allClss = Shreny::all();
-                
-        return view('layouts.students')   
+
+        return view('layouts.students')
         	->with('allStud', $allStud)
         	->with('allSubj', $allSubj)
             ->with('allClss', $allClss);
@@ -25,7 +25,7 @@ class StudentController extends Controller
 
     public function individualStudent(Request $request, $id){
     	$student = Student::find($id);
-    	
+
 
     	return view('layouts.individualStudent')->with('student', $student);
     }

@@ -15,7 +15,7 @@
     			<select class="form-control" name="cls">
     				<option> </option>
     				@foreach($clss as $cls)
-                        <option value="{{$cls->id}}">{{$cls->cls}}</option>                  
+                        <option value="{{$cls->id}}">{{$cls->cls}}</option>
                     @endforeach
     			</select>
     		</div>
@@ -25,7 +25,7 @@
     			<select class="form-control" name="sub">
                     <option value="0"></option>
                     @foreach($subjs as $sub)
-    				    <option value="{{$sub->subj}}">{{$sub->subj}}</option>    				
+    				    <option value="{{$sub->subj}}">{{$sub->subj}}</option>
                     @endforeach
     			</select>
     		</div>
@@ -40,16 +40,9 @@
 	<br>
 	<hr>
 	<br>
-	
-
-
-	
 
 
 @endsection
-
-
-
 
 
 @section('footer')

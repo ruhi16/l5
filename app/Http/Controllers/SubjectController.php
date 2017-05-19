@@ -15,8 +15,8 @@ use App\Mark;
 class SubjectController extends Controller
 {
     public function subject(){
-    	$allSubj = DB::table('subjects')->get();   
-        $allClss = Shreny::all();     
+    	$allSubj = DB::table('subjects')->get();
+        $allClss = Shreny::all();
 
     	//console.log('hello');
         return view('layouts.subjects')->with('allSubj', $allSubj)->with('allClss', $allClss);
@@ -25,23 +25,23 @@ class SubjectController extends Controller
     public function addSubject(Request $request){
         $subj = new Subject;
         $arr = explode('-',$request->get('forcls'));
-        
+
         $subj->subj     = $request->newsub;
         $subj->shreny_id = $arr[0];
         $subj->forclass = $arr[1];
-        $subj->fmTh = $request->fmTh;        
+        $subj->fmTh = $request->fmTh;
         $subj->fmPr = $request->fmPr;
         $subj->pmTh = $request->pmTh;
         $subj->pmPr = $request->pmPr;
 
         $subj->save();
-        
+
         return redirect()->to('/subject');
     }
 
     public function updateSubject(Request $request){
         //echo "stu id:".$request->tsub2;
-        //echo "sub is:".$request->get('sub1')."<br>";            
+        //echo "sub is:".$request->get('sub1')."<br>";
 
              //echo $request->tsub1." = ".$request->sub1."<br>";
              $study = Study::find($request->tsub1);
@@ -73,7 +73,7 @@ class SubjectController extends Controller
              $study->subject_id = $request->sub6;
              $study->save();
 
-        
+
 
         return redirect()->to('/students');
 
@@ -81,7 +81,7 @@ class SubjectController extends Controller
 
 
     public function editSubject($n){
-        $esubj = Subject::find($n);       
+        $esubj = Subject::find($n);
         return "hello";
 
     }
@@ -89,7 +89,7 @@ class SubjectController extends Controller
 
     public function xyz(Request $request){
     	$esubj = Subject::find($request['val']);
-        
+
         $oldsub = $esubj->subj;
 
     	$esubj->subj = $request['sub'];
@@ -108,7 +108,7 @@ class SubjectController extends Controller
         $marks->thmark = (float)$request['sth'];
         $marks->prmark = (float)$request['spr'];
         $marks->save();
-        
+
         return response()->json(['mrkid'=>$marks->id, 'thm'=>$marks->thmark, 'prm'=>$marks->prmark]);
     }
 
@@ -126,7 +126,7 @@ class SubjectController extends Controller
 
 
 
-    
+
 
     public function test(){
         $clss  = Shreny::all();
@@ -135,13 +135,13 @@ class SubjectController extends Controller
         return view ('layouts.test')
                 ->with('subjs', $subjs)
                 ->with('clss', $clss);
-                
+
     }
 
 
-    public function selectSubject(Request $request){       
+    public function selectSubject(Request $request){
         $clsses = Shreny::find($request->cls);//->paginate(1);
-        
+
         $test = DB::table('shrenies')
             ->join('subjects', 'shrenies.id', '=', 'subjects.shreny_id')
             ->join('students', 'shrenies.id', '=', 'students.shreny_id')
@@ -155,18 +155,18 @@ class SubjectController extends Controller
             ->where('subjects.subj', '=', $request->sub)
             ->where('shrenies.id',   '=', $request->cls)
             ->paginate(20);
-                
-                
+
+
         return view('layouts.marksEntryNew')
                  ->with('clsses',$clsses)
                  ->with('test', $test)
                  ->with('clss', $request->cls)
-                 ->with('subj', $request->sub);    
+                 ->with('subj', $request->sub);
     }
 
     public function AddSubMrk(Request $request) {
       $mark = DB::table('marks')->where('study_id', $request['sid'])->first();
-      
+
       if(isset($mark)){
         $mark = Mark::find($mark->id);
         $mark->study_id = (int) $request['sid'];
@@ -185,18 +185,32 @@ class SubjectController extends Controller
         $text = "New Record Inserted";
       }
 
-      
+
       return response()->json(['oval' => $request['thm'], 'nval' => $mark->thmark]);
-      //return response()->json(['sid' => $request['sid'], 'thm' => $request['thm'], 'prm' => $request['prm']]); 
+      //return response()->json(['sid' => $request['sid'], 'thm' => $request['thm'], 'prm' => $request['prm']]);
     }
 
+
+    public function updateRoll(Request $request){
+      $student = Student::find($request['sid']);
+      //$student = DB::table('students')->where('id','=',$request['sid'])->first();
+
+       $student->roll = $request['roll'];
+       //$student->reg  = $request['regn'];
+       $student->save();
+      return response()->json([
+                               'id'=>  $request['sid'],
+                               'name'=>$student->name
+
+                             ]);
+    }
 
     public function addMarks(Request $request){
         $mark = new Mark;
         $Tvals = $request->get('Tmark');
         $Pvals = $request->get('Pmark');
         $code = $request->get('code');
-        
+
         $stack = array();
         for($i=0; $i<count($code); $i++){
             echo $code[$i]."=>".$Pvals[$i]."=>".$Tvals[$i]."<br>";
@@ -206,14 +220,14 @@ class SubjectController extends Controller
                           "exam_id" => 1);
             array_push($stack, $data);
             print_r($data); echo"<br>";
-            print_r($stack);echo"<br>";            
+            print_r($stack);echo"<br>";
         }
         $mark->Insert($stack);
 
         return redirect()->to('/test2');
-    }  
+    }
 
 
 
-    
+
 }

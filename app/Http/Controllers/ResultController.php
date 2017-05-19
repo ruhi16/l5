@@ -15,37 +15,38 @@ use App\Mark;
 use App\Exam;
 use App\Shreny;
 use PDF;
-
+use App\Http\helpers;
 
 class ResultController extends Controller
 {
     public function reportDetails(){
-    	
+
     	return view('layouts.ReportDetails');
     }
 
     public function updateIndividualMarks(Request $request){
-    	
+
     }
 
 
-   
+
     public function studentResultPdf(Request $request){
     	$students = Student::all();
 
         $str = "";
         foreach ($students as $student) {
-            
+
             $str .= "<center><h1><b>Manikchak High Madrasah(H.S.)</b></h1>
                     <h4>Lalgola * Murshidabad</h4>
                     <b>Progress Report</b> for <b>Class XI Annual Exam-2017</b></center>";
 
 
-
+            qrTest($student->reg, $student->name);
             $str .= "<table width='100%'><tr><td>";
             $str .= "<td><h3>Name: ".$student->name. " [Class Roll: ".$student->roll."]</h3>";
             $str .= "<h4>Registration No: ".$student->reg."</h4></td>";
-            $str .= "<td><div class='col-xs-4'><center><img src='qrcode.png'></center></div></td></tr>";
+
+            $str .= "<td><div class='col-xs-4'><center><img src='$student->reg.png'></center></div></td></tr>";
             $str .= "</table>";
             $str .= "<table border='1' width='100%'>
             <tr>
@@ -77,28 +78,30 @@ class ResultController extends Controller
                 $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->pmTh:'')."</td>";
                 $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->pmPr:'')."</td>";
                 $flag = false;
-                
+
                 foreach ($study->marks as $mark) {
                     $flag = true; $count++;
                     $str .= "<td >".(int)$mark->thmark."</td>";
                     $str .= "<td >".(int)$mark->prmark."</td>";
                     $str .= "<td >".(int)($mark->thmark+$mark->prmark)."</td>";
-                    $str .= "<td rowspan='2'></td>";  
+                    $str .= "<td rowspan='2'>".grade($mark->thmark+$mark->prmark)."</td>";
                     $gTotal += (int)($mark->thmark+$mark->prmark);
-                    if( ($mark->thmark+$mark->prmark) < $min ){
+                    if( ($mark->thmark+$mark->prmark) < $min && $study->subject->subj != 'Bengali' && $study->subject->subj != 'English'){
                         $min = ($mark->thmark+$mark->prmark);
                     }
+                    
                 }
                 if($flag == false){
-                    $str .= "<td >a</td>";
-                    $str .= "<td >b</td>";
-                    $str .= "<td >c</td>";
+                    $str .= "<td >X</td>";
+                    $str .= "<td >X</td>";
+                    $str .= "<td >X</td>";
                     $str .= "<td rowspan='2'></td>";
+
                 }
                 $str .= "</tr>";
-                
+
                 $str .= "<tr>";
-                $str .= "<td colspan='3'>YY</td>";
+                $str .= "<td colspan='3'>".($flag == true ? convert($mark->thmark+$mark->prmark) : 'XXX')."</td>";
             $str .= "</tr>";
             }
 
@@ -106,11 +109,11 @@ class ResultController extends Controller
             $str .= "<td colspan='6'>Overall Result</td>";
             $str .= "<td colspan='2'>Grand Total</td>";
             $str .= "<td>".($count > 5 ? $gTotal-$min : $gTotal)."</td>";
-            $str .= "<td>".$min."/".$count."</td>";
+            $str .= "<td>".$min."/".$count."/".($count > 5 ? ($gTotal-$min)/$count : $gTotal/$count)."%</td>";
             $str .= "</tr>";
 
             $str .= "<tr>";
-            $str .= "<td colspan='10'>In Word: </td>";
+            $str .= "<td colspan='10'>In Word: ".($count > 5 ? convert($gTotal-$min) : convert($gTotal))."</td>";
             $str .= "</tr>";
 
             $str .= "</table><br><br><br>";
@@ -118,7 +121,7 @@ class ResultController extends Controller
             $str .= "<table width='100%'>
                         <thead><tr>
                             <th >Class Teacher</th>
-                            <th >Head of the Institution</th>        
+                            <th >Head of the Institution</th>
                         </tr></thead>
                         <tbody>
                             <tr>
@@ -132,8 +135,8 @@ class ResultController extends Controller
             $str .= "<br><br><br><table border='1'>
                 <thead>
                     <tr>
-                    <th colspan='8'>        
-                    Subjec-wise marks and grade are shown in the Mark Sheet. Classification of Grade is given bellow:       
+                    <th colspan='8'>
+                    Subjec-wise marks and grade are shown in the Mark Sheet. Classification of Grade is given bellow:
                     </th>
                     </tr>
                 </thead>
@@ -154,7 +157,7 @@ class ResultController extends Controller
 
 
             // $str =  "<h1>Hello<br>thi is test.</h1>
-            //          <div style='page-break-after:always;'></div> 
+            //          <div style='page-break-after:always;'></div>
             //          <h1>Hello<br>thi is test.</h1>";
 
 
@@ -162,28 +165,50 @@ class ResultController extends Controller
             //    $str = $str. $i."<div style='page-break-after:always;'>hello</div>"."Hello<br>";
             // }
         $str .= "<div style='page-break-after:always;'></div>";
-        break;
+        //break; // for 1 result only
         }
             $pdf = PDF::loadhtml($str);
         	$pdf->setPaper('A4', 'portrate');
         	//$pdf = PDF::loadView('layouts.studentResult', ['students'=>$students]);
             //$pdf = PDF::loadhtml("<h1>Hello1</h1>");
-        	
+
         	//return $pdf->stream('resutlAll.pdf');
 
-        
 
-        
+
+
         return $pdf->download('resutlAll.pdf');
         //return view('layouts.studentResult')->with('students', $students);
     }
 
-    
+    public function studentResultIndPdf(Request $request){
+        $students = DB::table('shrenies')
+            ->join('subjects', 'shrenies.id', '=', 'subjects.shreny_id')
+            ->join('students', 'shrenies.id', '=', 'students.shreny_id')
+            ->join('studies', function($join)
+            {
+              $join->on('studies.student_id', '=', 'students.id');
+              $join->on('studies.subject_id', '=', 'subjects.id');
+            })
+            ->leftJoin('marks', 'marks.study_id', '=', 'studies.id')
+            ->select('students.*','subjects.*', 'studies.*', 'studies.id as sid', 'marks.*')
+            //->where('subjects.subj', '=', $request->sub)
+            //->where('shrenies.id',   '=', $request->cls)
+            ->where('students.id','=', 2) //<<<<<<<<<<<<<<< submit student id, want to get result            
+            ->paginate(20);
+
+        //qrTest("Hello");
+        //$students = Student::all();
+        return view('layouts.resultIndividual')->with('students', $students);
+        //return view('layouts.marksEntryNew')->with('test', $students);
+    }
+
+
 
     public function studentRegisterPdf(){
 
-    	$students = Student::all();    	
-    	
+    	$students = Student::all();
+
     	$pdf = PDF::loadView('layouts.reportRegister', ['students'=>$students]);
     	$pdf->setPaper('Legal', 'landscape');
     	return $pdf->stream('resutlAll.pdf');
@@ -196,7 +221,7 @@ class ResultController extends Controller
         $shreny = Shreny::all();
 
         $pdf = PDF::loadView('layouts.studentSubRegisterPdf', ['shreny'=>$shreny, 'cls'=>$cls, 'sub'=>$sub]);
-        
+
         $pdf->setPaper('A4', 'portrate');
         return $pdf->stream('resutlAll.pdf');
         //return $pdf->download('resutlAll.pdf');
