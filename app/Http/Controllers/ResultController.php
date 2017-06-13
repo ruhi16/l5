@@ -31,155 +31,100 @@ class ResultController extends Controller
 
 
     public function studentResultPdf(Request $request){
-    	$students = Student::all();
+      $students = Student::all();//text-align:center;
+
+      // $allStuds = DB::table('shrenies')
+      //     ->join('subjects', 'shrenies.id', '=', 'subjects.shreny_id')
+      //     ->join('students', 'shrenies.id', '=', 'students.shreny_id')
+      //     ->join('studies', function($join)
+      //     {
+      //       $join->on('studies.student_id', '=', 'students.id');
+      //       $join->on('studies.subject_id', '=', 'subjects.id');
+      //     })
+      //     ->leftJoin('marks', 'marks.study_id', '=', 'studies.id')
+      //     ->select('students.*','subjects.*', 'studies.*', 'studies.id as sid', 'marks.*')
+      //     ->where('subjects.subj', '=', $request->sub)
+      //     ->where('shrenies.id',   '=', $request->cls)
+      //     ->where('students.id','=', 2) //<<<<<<<<<<<<<<< submit student id, want to get result
+      //     ->get();
+
+
+        //foreach ($allStuds as $key) { //<<<<<<<<<<
+        foreach ($students as $student) {
+            $qrStr = '';
+
+            $qrStr .= 'MHM-HS-19071515802-XI-An(2017)/Result-Nm:'.$student->name.' ('.$student->roll.') Rg-'.$student->reg.' ';
+            // refer to helper.php for helper function() utilised
+
+            foreach ($student->studies as $study) {
+                $qrStr .= (isset($study->subject->subj)? $study->subject->subj : '') . '-';
+                foreach ($study->marks as $mark) {
+                    $qrStr .= '('.(int)$mark->thmark.'+'.(int)$mark->prmark.'); ';
+                }
+            }
+
+            qrTest($student->reg, $qrStr);
+        }
 
         $str = "";
         foreach ($students as $student) {
-
-            $str .= "<center><h1><b>Manikchak High Madrasah(H.S.)</b></h1>
-                    <h4>Lalgola * Murshidabad</h4>
-                    <b>Progress Report</b> for <b>Class XI Annual Exam-2017</b></center>";
-
-
-            qrTest($student->reg, $student->name);
-            $str .= "<table width='100%'><tr><td>";
-            $str .= "<td><h3>Name: ".$student->name. " [Class Roll: ".$student->roll."]</h3>";
-            $str .= "<h4>Registration No: ".$student->reg."</h4></td>";
-
-            $str .= "<td><div class='col-xs-4'><center><img src='$student->reg.png'></center></div></td></tr>";
-            $str .= "</table>";
-            $str .= "<table border='1' width='100%'>
-            <tr>
-                <th rowspan='2'></th>
-                <th rowspan='2' class='text-center'>Subject</th>
-                <th colspan='2' class='text-center'>Full Marks</th>
-                <th colspan='2' class='text-center'>Pass Marks</th>
-                <th colspan='3' class='text-center'>Obtained Marks</th>
-                <th rowspan='2' class='text-center'>Grade</th>
-            </tr>
-            <tr>
-
-                <th class='text-center'>Theory</th>
-                <th class='text-center'>Project</th>
-                <th class='text-center'>Theory</th>
-                <th class='text-center'>Project</th>
-                <th class='text-center'>Theory</th>
-                <th class='text-center'>Project</th>
-                <th class='text-center'>Total</th>
-            </tr>";
-            $gTotal = 0; $min=100; $sl=0;$count = 0;
-            foreach ($student->studies as $study) {
-
-            $str .= "<tr>";
-                $str .= "<td rowspan='2'>".(++$sl)."</td>";
-                $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->subj:'')."</td>";
-                $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->fmTh:'')."</td>";
-                $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->fmPr:'')."</td>";
-                $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->pmTh:'')."</td>";
-                $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->pmPr:'')."</td>";
-                $flag = false;
-
-                foreach ($study->marks as $mark) {
-                    $flag = true; $count++;
-                    $str .= "<td >".(int)$mark->thmark."</td>";
-                    $str .= "<td >".(int)$mark->prmark."</td>";
-                    $str .= "<td >".(int)($mark->thmark+$mark->prmark)."</td>";
-                    $str .= "<td rowspan='2'>".grade($mark->thmark+$mark->prmark)."</td>";
-                    $gTotal += (int)($mark->thmark+$mark->prmark);
-                    if( ($mark->thmark+$mark->prmark) < $min && $study->subject->subj != 'Bengali' && $study->subject->subj != 'English'){
-                        $min = ($mark->thmark+$mark->prmark);
-                    }
-                    
-                }
-                if($flag == false){
-                    $str .= "<td >X</td>";
-                    $str .= "<td >X</td>";
-                    $str .= "<td >X</td>";
-                    $str .= "<td rowspan='2'></td>";
-
-                }
-                $str .= "</tr>";
-
-                $str .= "<tr>";
-                $str .= "<td colspan='3'>".($flag == true ? convert($mark->thmark+$mark->prmark) : 'XXX')."</td>";
-            $str .= "</tr>";
-            }
-
-            $str .= "<tr>";
-            $str .= "<td colspan='6'>Overall Result</td>";
-            $str .= "<td colspan='2'>Grand Total</td>";
-            $str .= "<td>".($count > 5 ? $gTotal-$min : $gTotal)."</td>";
-            $str .= "<td>".$min."/".$count."/".($count > 5 ? ($gTotal-$min)/$count : $gTotal/$count)."%</td>";
-            $str .= "</tr>";
-
-            $str .= "<tr>";
-            $str .= "<td colspan='10'>In Word: ".($count > 5 ? convert($gTotal-$min) : convert($gTotal))."</td>";
-            $str .= "</tr>";
-
-            $str .= "</table><br><br><br>";
-
-            $str .= "<table width='100%'>
-                        <thead><tr>
-                            <th >Class Teacher</th>
-                            <th >Head of the Institution</th>
-                        </tr></thead>
-                        <tbody>
-                            <tr>
-                            <td>Class XI</td>
-                            <td>Manikchak High Madrasah(H.S.)</td>
-                            </tr>
-                        </tbody>
-                    </table>";
-
-
-            $str .= "<br><br><br><table border='1'>
-                <thead>
-                    <tr>
-                    <th colspan='8'>
-                    Subjec-wise marks and grade are shown in the Mark Sheet. Classification of Grade is given bellow:
-                    </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                    <td>90-100:O [Outstanding]</td>
-                    <td>88-89: A+ [Excelent]</td>
-                    <td>70-79: A [Very Good]</td>
-                    <td>60-69: B+ [Good]</td>
-                    <td>50-59: B [Satisfactory]</td>
-                    <td>40-49: C [Fair]</td>
-                    <td>30-39: P [Passed]</td>
-                    <td>Bellow 39: F [Failed]</td>
-                </tr>
-                </tbody>
-            </table>";
-
-
-            // $str =  "<h1>Hello<br>thi is test.</h1>
-            //          <div style='page-break-after:always;'></div>
-            //          <h1>Hello<br>thi is test.</h1>";
-
-
-            // for($i=0; $i<10; $i++){
-            //    $str = $str. $i."<div style='page-break-after:always;'>hello</div>"."Hello<br>";
-            // }
-        $str .= "<div style='page-break-after:always;'></div>";
-        //break; // for 1 result only
+          // refer to helper.php for helper function() utilised
+          $str .= makeResultPdf($student);
+          break;
         }
-            $pdf = PDF::loadhtml($str);
-        	$pdf->setPaper('A4', 'portrate');
-        	//$pdf = PDF::loadView('layouts.studentResult', ['students'=>$students]);
-            //$pdf = PDF::loadhtml("<h1>Hello1</h1>");
-
-        	//return $pdf->stream('resutlAll.pdf');
 
 
 
+
+          $pdf = PDF::loadhtml($str)
+            ->setPaper('A4', 'portrate')
+            ->save('result.pdf');
+        	//$pdf->setPaper('A4', 'portrate');
 
         return $pdf->download('resutlAll.pdf');
         //return view('layouts.studentResult')->with('students', $students);
     }
+
+    //===== start =================================================
+    public function resultTableAll(Request $request){
+        $students = Student::paginate(10);
+        //console.log($students);
+        return view('layouts.resultTableAll')->with('students', $students);
+    }
+    public function downloadResult(Request $request){
+        $student = Student::find($request['sid']);
+
+            $qrStr = '';
+            $qrStr .= 'MHM-HS-19071515802-XI-An2017/Rs-N:'.$student->name.'-'.$student->roll.'-'.$student->reg;
+            foreach ($student->studies as $study) {
+                $qrStr .= (isset($study->subject->subj)? $study->subject->subj : '') . '-';
+                foreach ($study->marks as $mark) {
+                    $qrStr .= '('.(int)$mark->thmark.'+'.(int)$mark->prmark.');';
+                }
+            }
+
+            qrTest($student->reg, $qrStr);
+            $strDetails = makeResultPdf($student);
+
+            $pdf = PDF::loadhtml($strDetails)
+          	      ->setPaper('A4', 'portrate')
+                  ->save($student->reg.'.pdf');
+
+
+            //$pdf->download('resutlAll.pdf');
+        $stdReg = '';//$student->reg;
+        if(is_null($student)){
+            $stdReg = "Data not Found!";
+        }else{
+            $stdReg = $student->reg;
+        }
+        return response()->json([
+                                 'id'=>  $request['sid'],
+                                 'name'=> $stdReg//$student->name
+                               ]);
+        //return response()->download($student->reg.'.pdf');
+    }
+    //====== end =================================================
 
     public function studentResultIndPdf(Request $request){
         $students = DB::table('shrenies')
@@ -194,7 +139,7 @@ class ResultController extends Controller
             ->select('students.*','subjects.*', 'studies.*', 'studies.id as sid', 'marks.*')
             //->where('subjects.subj', '=', $request->sub)
             //->where('shrenies.id',   '=', $request->cls)
-            ->where('students.id','=', 2) //<<<<<<<<<<<<<<< submit student id, want to get result            
+            ->where('students.id','=', 2) //<<<<<<<<<<<<<<< submit student id, want to get result
             ->paginate(20);
 
         //qrTest("Hello");

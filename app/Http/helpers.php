@@ -7,7 +7,7 @@ function qrTest($testReg, $testStr){
     $qrCode = new QrCode();
     $qrCode
         ->setText($testStr)
-        ->setSize(100)
+        ->setSize(150)
         ->setPadding(10)
         ->setErrorCorrection('high')
         ->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0])
@@ -37,36 +37,36 @@ function qrTest($testReg, $testStr){
          $negative    = 'negative ';
          $decimal     = ' point ';
          $dictionary  = array(
-          0                   => 'zero',
-          1                   => 'one',
-          2                   => 'two',
-          3                   => 'three',
-          4                   => 'four',
-          5                   => 'five',
-          6                   => 'six',
-          7                   => 'seven',
-          8                   => 'eight',
-          9                   => 'nine',
-          10                  => 'ten',
-          11                  => 'eleven',
-          12                  => 'twelve',
-          13                  => 'thirteen',
-          14                  => 'fourteen',
-          15                  => 'fifteen',
-          16                  => 'sixteen',
-          17                  => 'seventeen',
-          18                  => 'eighteen',
-          19                  => 'nineteen',
-          20                  => 'twenty',
-          30                  => 'thirty',
-          40                  => 'fourty',
-          50                  => 'fifty',
-          60                  => 'sixty',
-          70                  => 'seventy',
-          80                  => 'eighty',
-          90                  => 'ninety',
-          100                 => 'hundred',
-          1000                => 'thousand',
+          0                   => 'Zero',
+          1                   => 'One',
+          2                   => 'Two',
+          3                   => 'Three',
+          4                   => 'Four',
+          5                   => 'Five',
+          6                   => 'Six',
+          7                   => 'Seven',
+          8                   => 'Eight',
+          9                   => 'Nine',
+          10                  => 'Ten',
+          11                  => 'Eleven',
+          12                  => 'Twelve',
+          13                  => 'Thirteen',
+          14                  => 'Fourteen',
+          15                  => 'Fifteen',
+          16                  => 'Sixteen',
+          17                  => 'Seventeen',
+          18                  => 'Eighteen',
+          19                  => 'Nineteen',
+          20                  => 'Twenty',
+          30                  => 'Thirty',
+          40                  => 'Fourty',
+          50                  => 'Fifty',
+          60                  => 'Sixty',
+          70                  => 'Seventy',
+          80                  => 'Eighty',
+          90                  => 'Ninety',
+          100                 => 'Hundred',
+          1000                => 'Thousand',
         );
 
               if (!is_numeric($number) ) return false;
@@ -131,6 +131,153 @@ function qrTest($testReg, $testStr){
 
               return $g;
             }
+
+
+
+            function makeResultPdf($student){
+                  $str = '';
+                  $str .= "<center><h1><b>Manikchak High Madrasah(H.S.)</b></h1>
+                          <h4>Lalgola * Murshidabad</h4>
+                          <h3>DISE Code: 19071515802</h3>
+                          <b>Progress Report</b> for <b>Class XI Annual Exam-2017</b></center>";
+
+
+                  //qrTest($student->reg, $qrStr); //<<<<<<(fileName, stringToEncode)<<<<<<<==============
+                  $str .= "<table width='100%' ><tr><td>";
+                  $str .= "<td><h3>Name: ".$student->name. " </h3>";
+                  $str .= "<h4>Registration No: ".$student->reg."</h4><h4>[XI(2017) Class Roll: ".$student->roll."]</h4></td>";
+
+                  $str .= "<td><div class='col-xs-4'><p align='right'><img src='$student->reg.png'></p></div></td></tr>";
+                  $str .= "</table>";
+                  $str .= "<table width='100%' border='1' style='border-width:1px; border-color: #222;border: solid; border-collapse: collapse;'>
+                  <tr align='center'>
+                      <th rowspan='2'></th>
+                      <th rowspan='2' class='text-center'>Subject</th>
+                      <th colspan='2' class='text-center'>Full Marks</th>
+                      <th colspan='2' class='text-center'>Pass Marks</th>
+                      <th colspan='3' class='text-center'>Obtained Marks</th>
+                      <th rowspan='2' class='text-center'>Grade</th>
+                  </tr>
+                  <tr>
+
+                      <th class='text-center'>Theory</th>
+                      <th class='text-center'>Project</th>
+                      <th class='text-center'>Theory</th>
+                      <th class='text-center'>Project</th>
+                      <th class='text-center'>Theory</th>
+                      <th class='text-center'>Project</th>
+                      <th class='text-center'>Total</th>
+                  </tr>";
+                  $gTotal = 0; $min=100; $sl=0;$count = 0;
+                  foreach ($student->studies as $study) {
+
+                    // $adSubj = ''; $minMark = 100;
+                    // foreach ($study->marks as $mark) {
+                    //     $tot = (int) ($mark->thmark + $mark->prmark);
+                    //     if( $tot < $minMark && $study->subject->subj != 'Bengali' && $study->subject->subj != 'English'){
+                    //         $minMark = $tot;
+                    //         $adSubj = $study->subject->subj;
+                    //     }
+                    // }
+
+                  $str .= "<tr align='center'>";
+                      $str .= "<td rowspan='2'>".(++$sl)."</td>";
+                      $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->subj:'')."</td>";//.(($study->subject->subj == $adSubj ? '(Addl.)':'') )
+                      $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->fmTh:'')."</td>";
+                      $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->fmPr:'')."</td>";
+                      $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->pmTh:'')."</td>";
+                      $str .= "<td rowspan='2'>".(isset($study->subject->subj)?$study->subject->pmPr:'')."</td>";
+                      $flag = false;
+
+                      foreach ($study->marks as $mark) {
+                          $flag = true; $count++;
+                          $str .= "<td >".(int)$mark->thmark."</td>";
+                          $str .= "<td >".(int)$mark->prmark."</td>";
+                          $str .= "<td >".(int)($mark->thmark+$mark->prmark)."</td>";
+                          $str .= "<td rowspan='2'>".grade($mark->thmark+$mark->prmark)."</td>";
+                          $gTotal += (int)($mark->thmark+$mark->prmark);
+                          if( ($mark->thmark+$mark->prmark) < $min ){  //&& $study->subject->subj != 'Bengali' && $study->subject->subj != 'English'
+                              $min = ($mark->thmark+$mark->prmark);
+                          }
+                      }
+                      if($flag == false){
+                          $str .= "<td >X</td>";
+                          $str .= "<td >X</td>";
+                          $str .= "<td >X</td>";
+                          $str .= "<td rowspan='2'></td>";
+
+                      }
+                      $str .= "</tr>";
+
+                      $str .= "<tr align='center'>";
+                      $str .= "<td colspan='3'>".($flag == true ? convert($mark->thmark+$mark->prmark) : 'XXX')."</td>";
+                  $str .= "</tr>";
+                  }
+
+                  $str .= "<tr align='center' >";
+                  $str .= "<td colspan='6' align='left'>Overall Result: <b>".($count > 5 ? grade(($gTotal-$min)/6) : grade($gTotal/5))."</b></td>";
+                  $str .= "<td colspan='2'>Grand Total: </td>";
+                  $str .= "<td><b>".($count > 5 ? $gTotal-$min : $gTotal)."</b></td>";
+                  $str .= "<td><b>".($count > 5 ? round(($gTotal-$min)/$count,2) : round(($gTotal/$count),2))."%</b></td>"; //$min."/".$count."/".
+                  $str .= "</tr>";
+
+                  $str .= "<tr>";
+                  $str .= "<td colspan='10'>In Word: <b>".($count > 5 ? convert($gTotal-$min) : convert($gTotal))."<b></td>";
+                  $str .= "</tr>";
+
+                  $str .= "</table><br><br><br>";
+
+                  $str .= "<table  width='100%' style='border-collapse: collapse; '>
+                              <thead><tr>
+                                  <th align='center'>Class Teacher</th>
+                                  <th align='center'>TIC/Headmaster</th>
+                              </tr></thead>
+                              <tbody>
+                                  <tr>
+                                  <td align='center'>Manikchak High Madrasah(H.S.)</td>
+                                  <td align='center'>Manikchak High Madrasah(H.S.)</td>
+                                  </tr>
+                              </tbody>
+                          </table>";
+
+
+                  $str .= "<br><br><br>
+                    <table border='1' style='border-collapse: collapse;font-family:arial; font-size: 12px; text-align: center;'>
+                      <thead>
+                          <tr>
+                          <th colspan='8'>
+                          Subjec-wise marks and grade are shown in the Mark Sheet. Classification of Grade is given bellow:
+                          </th>
+                          </tr>
+                      </thead>
+
+                      <tbody>
+                      <tr>
+                          <td>90-100:O [Outstanding]</td>
+                          <td>88-89: A+ [Excelent]</td>
+                          <td>70-79: A [Very Good]</td>
+                          <td>60-69: B+ [Good]</td>
+                          <td>50-59: B [Satisfactory]</td>
+                          <td>40-49: C [Fair]</td>
+                          <td>30-39: P [Passed]</td>
+                          <td>Bellow 39: F [Failed]</td>
+                      </tr>
+                      </tbody>
+                  </table>";
+                  $str .= "<p style='font-family:arial; font-size: 12px; text-align: left;'>
+                                N.B.:The Total Marks & Average are calculated on the basis of 'Best of 5 Subject' rules.
+                              </p>";
+              //$str .= "<div style='page-break-after:always;'></div>";
+              return $str;
+              //$pdf = PDF::loadhtml($str);
+          	  //$pdf->setPaper('A4', 'portrate');
+          	  //$pdf = PDF::loadView('layouts.studentResult', ['students'=>$students]);
+              //$pdf = PDF::loadhtml("<h1>Hello1</h1>");
+
+          	  //return $pdf->stream('resutlAll.pdf');
+              //$pdf->download('resutlAll.pdf');
+
+            }// end of function makeResultPdf()
 
 
 //}

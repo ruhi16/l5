@@ -25,7 +25,7 @@
 	<center><h1><b>Manikchak High Madrasah(H.S.)</b></h1>
     <h4>Lalgola * Murshidabad</h4>
     <b>Progress Report</b> for <b>Class XI Annual Exam-2017</b></center>
-	
+
     @foreach($students as $student)
     {{qrTest($student->reg, $student->name)}}
     <table width='100%'><tr><td>
