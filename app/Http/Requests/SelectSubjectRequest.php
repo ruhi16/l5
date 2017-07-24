@@ -23,12 +23,12 @@ class SelectSubjectRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'sub1'  =>  'filled',
-            'sub2'  =>  'present',
-            'sub3'  =>  'string',
-            'sub4'  =>  'required',
-            'sub5'  =>  'alpha'
-        ];
+        // return [
+        //     'sub1'  =>  'filled',
+        //     'sub2'  =>  'present',
+        //     'sub3'  =>  'string',
+        //     'sub4'  =>  'required',
+        //     'sub5'  =>  'alpha'
+        // ];
     }
 }

@@ -43,6 +43,9 @@ class SubjectController extends Controller
         //echo "stu id:".$request->tsub2;
         //echo "sub is:".$request->get('sub1')."<br>";
 
+
+        
+
              //echo $request->tsub1." = ".$request->sub1."<br>";
              $study = Study::find($request->tsub1);
              $study->subject_id = $request->sub1;

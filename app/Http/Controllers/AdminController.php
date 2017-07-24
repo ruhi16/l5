@@ -111,13 +111,16 @@ class AdminController extends Controller
 
 
 
-    public function addStudent(SelectSubjectRequest $request){
+    public function addStudent(Request $request){
         $stud = new Student;
         $stud->name = $request->name;
         $stud->shreny_id = $request->get('clss');
         $stud->roll = $request->roll;
-        $stud->reg = $request->reg;
-        //$stud->save();
+        $stud->reg = $request->reg;       
+
+        $stud->save();
+
+        
 
         $stdy = new Study; 
         $data = array(       
@@ -134,10 +137,10 @@ class AdminController extends Controller
         array(  "student_id" => $stud->id,
                 "subject_id" => $request->get('sub6'))
         );
-        //$stdy->insert($data);
+        $stdy->insert($data);
         
-        return "Successfull";
-        //return redirect()->to('/dashboard');
+        //return "Successfull";
+        return redirect()->to('/dashboard');
         
     }
 
