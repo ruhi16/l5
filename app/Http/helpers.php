@@ -218,7 +218,7 @@ function qrTest($testReg, $testStr){
                   $str .= "<td colspan='6' align='left'>Overall Result: <b>".($count > 5 ? grade(($gTotal-$min)/6) : grade($gTotal/5))."</b></td>";
                   $str .= "<td colspan='2'>Grand Total: </td>";
                   $str .= "<td><b>".($count > 5 ? $gTotal-$min : $gTotal)."</b></td>";
-                  $str .= "<td><b>".($count > 5 ? round(($gTotal-$min)/$count,2) : round(($gTotal/$count),2))."%</b></td>"; //$min."/".$count."/".
+                  $str .= "<td><b>".($count > 5 ? round(($gTotal-$min)/($count-1),2) : round(($gTotal/$count),2))."%</b></td>"; //$min."/".$count."/".
                   $str .= "</tr>";
 
                   $str .= "<tr>";

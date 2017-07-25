@@ -54,6 +54,9 @@ Route::group(['middleware' => 'admin',], function(){
 	Route::get('/reportDetails', 'ResultController@reportDetails');
 	Route::get('/studentResultPdf', 'ResultController@studentResultPdf');
 	Route::get('/resultTableAll', 'ResultController@resultTableAll');
+
+Route::get('/resultTableAllCopy', 'ResultController@resultTableAllCopy');
+
 	Route::get('/studentRegisterPdf', 'ResultController@studentRegisterPdf');
 	Route::get('/selectSubjectPdf', 'ResultController@selectSubjectPdf');
 	Route::get('/studentSubRegisterPdf', 'ResultController@studentSubRegisterPdf');

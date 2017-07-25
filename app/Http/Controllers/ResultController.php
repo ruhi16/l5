@@ -86,6 +86,12 @@ class ResultController extends Controller
     }
 
     //===== start =================================================
+    public function resultTableAllCopy(Request $request){
+        $students = Student::get();
+        //console.log($students);
+        return view('layouts.resultTableAllCopy')->with('students', $students);
+    }
+
     public function resultTableAll(Request $request){
         $students = Student::paginate(10);
         //console.log($students);
