@@ -73,6 +73,10 @@ Route::get('/resultTableAllCopy', 'ResultController@resultTableAllCopy');
 
 
 
+	Route::get('/studentRegisterCheckList', 'RegistrationController@studentRegister');
+	Route::get('/studentRegisterCheckListHtml', 'RegistrationController@studentRegisterHtml');
+
+
 	Route::get('/students', 'StudentController@students');
 	Route::get('/addStudent','AdminController@addStudent');
 	Route::get('/editStudent/{n}',

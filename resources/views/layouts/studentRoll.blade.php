@@ -53,12 +53,7 @@ $(document).ready(function(){
 		var t = '{{csrf_token()}}';
 
 
-		// $.bootstrapGrowl('Record Updated Successfully!',{
-    //         type: 'info', // success, error, info, warning
-    //         delay: 1000,
-    //     });
-
-
+	
 		$.ajax({
 			method: 'post',
 			url: u,

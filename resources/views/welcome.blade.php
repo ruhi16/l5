@@ -78,17 +78,15 @@
             @endif
 
             <div class="content">
+                <div class="title">
+                    <h1>Class XI Result Automation </h1>
+
+                </div>
                 <div class="title m-b-md">
-                    Laravel
+                    <a href="{{url('/home')}}" >Go to Home Page
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                
             </div>
         </div>
     </body>

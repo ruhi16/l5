@@ -13,7 +13,7 @@ use App\Shreny;
 class StudentController extends Controller
 {
     public function students(Request $request){
-    	$allStud = Student::all();
+    	$allStud = Student::all()->sortBy('reg');
     	$allSubj = Subject::all();
         $allClss = Shreny::all();
 

@@ -35,11 +35,11 @@
 	    	<tr id="tr{{$stud->id}}">
 	          <td id="td{{$stud->id}}roll">{{$stud->roll}}</td>
             <td id="td{{$stud->id}}name">{{$stud->name}}</td>
-            <td id="td{{$stud->id}}clss">{{$stud->study}}</td>
+            <td id="td{{$stud->id}}clss">{{$stud->roll}}</td>
             <td id="td{{$stud->id}}reg" >{{$stud->reg}} </td>
             <?php $i=1;?>
         		@foreach($stud->studies as $sub)        			
-                <td id="{{$i++}}td{{$stud->id}}">{{$sub->id}}-{{$sub->subject->subj or ''}}</td>	
+                <td id="{{$i++}}td{{$stud->id}}">{{$sub->subject->subj or ''}}</td>	
         		@endforeach          
 	          <td>
 	          	<button class="btn btn-primary open-modal" value="{{$stud->id}}">Edit</button>            

@@ -41,7 +41,7 @@
         <tr>
           <td>{{$stu->roll}}</td>
           <td>{{$stu->name}}</td>
-          <td>{{$stu->shreny_id}}</td>
+          <td>{{$allClss->find($stu->shreny_id)->first()->cls}}</td>
           <td>{{$stu->reg}}</td>
           <td>   
             <a href="{!! url('/editStudent',[$stu->id]) !!}" class="btn btn-primary">Edit</a>

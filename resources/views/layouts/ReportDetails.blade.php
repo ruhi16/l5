@@ -16,9 +16,10 @@
 
 
 
-
-
-
+{{--  New Work  --}}
+<br><br>
+<a class="btn btn-success" href="{{url('/studentRegisterCheckList')}}">Registration Check List</a>
+<a class="btn btn-info" href="{{url('/studentRegisterCheckListHtml')}}">Registration Check List Pdf</a>
 
 
 @endsection
