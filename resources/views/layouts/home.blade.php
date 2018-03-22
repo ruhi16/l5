@@ -33,7 +33,7 @@ Subject Wise Students List:
 		<td>
 		@foreach($subject->studies as $study)	
 			@php $count++; @endphp	
-			{{$study->student->name}}, 	
+			<strong>{{$study->student->name}}</strong>({{$study->student->reg}}), 
 		@endforeach	
 		</td>
 		<td>{{$count}}</td>
@@ -48,7 +48,7 @@ Student Wise Subjects List:
 	
 	@foreach($shreny->students as $student)	
 		<tr>
-		<td>{{$student->name}}</td>
+		<td>{{$student->name}}({{$student->reg}})</td>
 		@php $count = 0; @endphp
 		<td>
 		@foreach($student->studies as $study)	
