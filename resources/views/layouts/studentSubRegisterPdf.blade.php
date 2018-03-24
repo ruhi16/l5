@@ -12,7 +12,7 @@
 <center>
 			<h1><b>Manikchak High Madrasah(H.S.)</b></h1>
 			<h5>Lalgola * Murshidabad</h5>
-			<h4><b>Manual Marks Entry Sheet</b><br>for <b>Class XI Annual Exam-2017 Subject: <u>{{$sub}}</u></b></h4>
+			<h4><b>Manual Marks Entry Sheet</b><br>for <b>Class XI Annual Exam-2018 Subject: <u>{{$sub}}</u></b></h4>
 </center>
 
 <br>
