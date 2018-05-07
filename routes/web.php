@@ -52,7 +52,14 @@ Route::group(['middleware' => 'admin',], function(){
 
 
 	Route::get('/compactMarksRegister', 'ReportController@compactMarksRegister');
+	Route::get('/compactMarksRegisterHTML', 'ReportController@compactMarksRegisterHTML');
+
 	Route::get('/compactMeritList', 'ReportController@compactMeritList');
+	Route::get('/compactMeritListHTML', 'ReportController@compactMeritListHTML');
+
+
+
+
 
 	Route::get('/reportDetails', 'ResultController@reportDetails');
 	Route::get('/studentResultPdf', 'ResultController@studentResultPdf');
@@ -64,8 +71,8 @@ Route::group(['middleware' => 'admin',], function(){
 	Route::get('/selectSubjectPdf', 'ResultController@selectSubjectPdf');
 	Route::get('/studentSubRegisterPdf', 'ResultController@studentSubRegisterPdf');
 
-  Route::post('/downloadResult', 'ResultController@downloadResult');
-  Route::get('/qrTest', 'ResultController@qrTest');
+  	Route::post('/downloadResult', 'ResultController@downloadResult');
+  	Route::get('/qrTest', 'ResultController@qrTest');
 
 
 

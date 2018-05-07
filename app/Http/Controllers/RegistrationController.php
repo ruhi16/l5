@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Endroid\QrCode\QrCode;
 
+ini_set('max_execution_time', 5000);
+//ini_set("memory_limit","256M");
+ini_set('memory_set',-1);
+
 use DB;
 use App\User;
 use App\Subject;

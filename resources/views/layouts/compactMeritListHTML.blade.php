@@ -1,13 +1,24 @@
-@extends('layouts.baselayout')
-@section('title','REPORT PAGE')
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Register Sheet</title>
+	<style>
+		table, th, td {
+			border: 1px solid black;
+			border-collapse: collapse;            
+            text-align="right";
+        }
+        
+	</style>
+</head>
+<body>
+<center>
+<h1>Manikchak High Madrasah(H.S.)</h1>
+<h2>Class XI - 2017-18 Students Merit List Details</h2>
+</center>
 
-@section('header')
-	@include('layouts.navbar')
-@endsection
+<table border="1">
 
-@section('content')
-	<h1>Compact Merit List</h1>
-    <table class="table table-bordered">
     <thead>
         <tr>
             <th>ID</th>
@@ -26,8 +37,8 @@
         @php $i++; @endphp
         <tr>
             <td>{{ $i }}</td>
-            <td>{{ $merit->name }}</td>
-            <td>{{ $merit->reg }}</td>
+            <td align="left">{{ $merit->name }}</td>
+            <td align="left">{{ $merit->reg }}</td>
             <td>{{ $merit->roll }}</td>
             <td>{{ $merit->tot6subj }}</td>
             <td>{{ $merit->totminsubj }}</td>
@@ -40,17 +51,22 @@
     </table>
 
 
-    {{--  @foreach($students as $student)
-
-        {{ $student }}<br>
-
-    @endforeach  --}}
 
 
 
 
-@endsection
 
-@section('footer')
-	@include('layouts.footer')
-@endsection
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

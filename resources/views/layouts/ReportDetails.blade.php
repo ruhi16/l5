@@ -21,7 +21,9 @@
 <a class="btn btn-success" href="{{url('/studentRegisterCheckList')}}">Registration Check List</a>
 <a class="btn btn-info" href="{{url('/studentRegisterCheckListHtml')}}">Registration Check List Pdf</a>
 <a class="btn btn-warning" href="{{url('/compactMarksRegister')}}">Compact Students Marks List</a>
-<a class="btn btn-success" href="{{url('/compactMarksRegister')}}">Student Merit List</a>
+<a class="btn btn-warning" href="{{url('/compactMarksRegisterHTML')}}">Compact Students Marks List PDF</a>
+<a class="btn btn-success" href="{{url('/compactMeritList')}}">Student Merit List</a>
+<a class="btn btn-success" href="{{url('/compactMeritListHTML')}}">Student Merit List PDF</a>
 
 @endsection
 

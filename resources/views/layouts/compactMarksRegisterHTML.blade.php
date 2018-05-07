@@ -1,14 +1,22 @@
-@extends('layouts.baselayout')
-@section('title','REPORT PAGE')
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Register Sheet</title>
+	<style>
+		table, th, td {
+			border: 1px solid black;
+			border-collapse: collapse;
+		}
+	</style>
+</head>
+<body>
+<center>
+<h1>Manikchak High Madrasah(H.S.)</h1>
+<h2>Class XI - 2017-18 Students Marks Registers Details</h2>
+</center>
+	
 
-@section('header')
-	@include('layouts.navbar')
-@endsection
-
-@section('content')
-	<h1>Compact Marks Register</h1>
-
-    <table class="table table-bordered">
+    <table border="1">
     <thead>
         <tr>
             <th>ID</th>
@@ -52,17 +60,6 @@
     </table>
 
 
-    @foreach($students as $student)
 
-        {{ $student }}<br>
-
-    @endforeach
-
-
-
-
-@endsection
-
-@section('footer')
-	@include('layouts.footer')
-@endsection
+</body>
+</html>

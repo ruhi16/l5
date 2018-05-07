@@ -19,24 +19,59 @@ use App\Exam;
 use App\Shreny;
 use PDF;
 use App\Http\helpers;
+use App\Meritlist;
 
 
 class ReportController extends Controller
 {
     public function compactMarksRegister(Request $request){
-        $students = Student::all();
+        $students = Student::all()->sortBy('roll');
 
         return view('layouts.compactMarksRegister')
             ->with('students', $students)
         ;
     }
 
+
+    
+
+    public function compactMarksRegisterHTML(Request $request){
+        $students = Student::all()->sortBy('roll');
+
+
+        $pdf = pdf::LOADvIEW('layouts.compactMarksRegisterHTML', ['students'=>$students])
+                    ->setPaper('a4', 'portrate');
+        
+        return $pdf->stream();         
+    }
+
+
+
+    //=============================
     public function compactMeritList(Request $request){
 
-        $students = Student::all();
+        $meritlists = Meritlist::all();
 
         return view('layouts.compactMeritList')
-            ->with('students', $students)
+            ->with('meritlists', $meritlists)
         ;
     }
+
+    public function compactMeritListHTML(Request $request){
+        $meritlists = Meritlist::all();
+        
+
+        $pdf = pdf::LOADvIEW('layouts.compactMeritListHTML', ['meritlists'=>$meritlists])
+                    ->setPaper('a4', 'portrate');
+
+        return $pdf->stream();  
+        // return view('layouts.compactMeritListHTML');
+        // $students = Student::all();
+
+        // return view('layouts.compactMeritListHTML')
+        //     ->with('students', $students)
+        // ;
+    }
+
+
 }

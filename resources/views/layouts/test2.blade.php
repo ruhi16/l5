@@ -32,8 +32,6 @@
 			@foreach($student->studies as $study)
 
 				<td id="{{$student->id}}sub{{$index}}">{{$study->subject->subj or ''}}</td>
-				
-
 				@forelse($study->marks as $mark)
 					<td id="{{$student->id}}sub{{$index}}th">{{(int)$mark->thmark}}</td>
           <td id="{{$student->id}}sub{{$index}}pr">{{(int)$mark->prmark}}</td>

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+ini_set('max_execution_time', 5000);
+//ini_set("memory_limit","256M");
+ini_set('memory_set',-1);
+
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
