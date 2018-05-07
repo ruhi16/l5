@@ -63,7 +63,7 @@ $(document).ready(function(){
 					$.bootstrapGrowl(msg['name']+"'s Record Updated Successfully!",{
 			            type: 'info', // success, error, info, warning
 			            delay: 1000,
-			    });
+			    	});
 			},
 			error: function(data){
 					console.log("ajax Invoked error!!! occured"+data);
