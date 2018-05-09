@@ -23,12 +23,14 @@
 			
 		</tr>
 	</thead>
-	<tbody>		
+	<tbody>
+		@php $i = 0; @endphp
 		@foreach($stds as $st)
+			@php $i++; @endphp
 			<tr>
-				<td>{{$st->id}}</td>
-				<td>{{$st->name}}</td>
-				<td></td>
+				<td>{{ $i }}</td>
+				<td>{{ $st->name }}</td>
+				<td>{{ $st->roll }}</td>
 				<td></td>
 				<td>
 					@foreach($st->studies as $s)
@@ -40,7 +42,7 @@
 					@endforeach
 				</td>
 				<td>{{$st->reg}}</td>
-				<td>{{$st->roll}}</td>				
+				<td></td>				
 				<td></td>
 				<td></td>
 				<td></td>

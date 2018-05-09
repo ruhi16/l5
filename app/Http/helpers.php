@@ -139,13 +139,13 @@ function qrTest($testReg, $testStr){
                   $str .= "<center><h1><b>Manikchak High Madrasah(H.S.)</b></h1>
                           <h4>Lalgola * Murshidabad</h4>
                           <h3>DISE Code: 19071515802</h3>
-                          <b>Progress Report</b> for <b>Class XI Annual Exam-2017</b></center>";
+                          <b>Progress Report</b> for <b>Class XI Annual Exam-2018</b></center>";
 
 
                   //qrTest($student->reg, $qrStr); //<<<<<<(fileName, stringToEncode)<<<<<<<==============
                   $str .= "<table width='100%' ><tr><td>";
                   $str .= "<td><h3>Name: ".$student->name. " </h3>";
-                  $str .= "<h4>Registration No: ".$student->reg."</h4><h4>[XI(2017) Class Roll: ".$student->roll."]</h4></td>";
+                  $str .= "<h4>Registration No: ".$student->reg."</h4><h4>[XI(2018) Class Roll: ".$student->roll."]</h4></td>";
 
                   $str .= "<td><div class='col-xs-4'><p align='right'><img src='$student->reg.png'></p></div></td></tr>";
                   $str .= "</table>";

@@ -8,7 +8,7 @@ class Mark extends Model
 {
 	protected $guarded =[];
 	
-    public function studies(){
+    public function study(){
     	return $this->belongsTo('App\Study');
     }
 }

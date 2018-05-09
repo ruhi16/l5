@@ -19,21 +19,23 @@
 		<tr>			
 			<th>SL</th>
 			<th>Student Name</th>
-			<th>Admit Roll No</th>			
+			<th>Class XI Roll No</th>			
             <th>Subject Details</th>
 			<th>Registraion No</th>
-			<th>Class-XI Roll-NO</th>
+			<th>Admit Roll-NO</th>
 			<th>Signature for Reg Cert</th>
 			<th>Signature for Admit Card</th>
 			<th>Signature for Mark Sheet & Cert</th>			
 		</tr>
 	</thead>
 	<tbody>		
+		@php $i = 0; @endphp
 		@foreach($stds as $st)
+			@php $i++; @endphp
 			<tr>
-				<td>{{($st->id-399)}}</td>
-				<td>{{$st->name}}</td>
-				<td></td>				
+				<td>{{ $i }}</td>
+				<td>{{ $st->name }}</td>
+				<td align="center">{{ $st->roll }}</td>				
 				<td>
 				@foreach($st->studies as $s)
 					<!-- {{ $s->subject_id }} -->
@@ -41,8 +43,7 @@
 						$subjs->where('id',$s->subject_id)
 						->pluck('shsubj')->first()
 					}},
-				@endforeach
-				<!-- {{$st->reg}} -->
+				@endforeach				
 				</td>
 				<td>{{$st->reg}}</td>
 				<td></td>

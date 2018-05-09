@@ -46,11 +46,11 @@
             }
 
             .title {
-                font-size: 84px;
+                font-size: 24px;
             }
 
             .links > a {
-                color: #636b6f;
+                color: #bb6b6f;
                 padding: 0 25px;
                 font-size: 12px;
                 font-weight: 600;
@@ -79,11 +79,11 @@
 
             <div class="content">
                 <div class="title">
-                    <h1>Class XI Result Automation </h1>
+                    <h1>Class XI Result Automation</h1>
 
                 </div>
                 <div class="title m-b-md">
-                    <a href="{{url('/home')}}" >Go to Home Page
+                    <a href="{{url('/home')}}" ><b>Go to Home Page</b>
                 </div>
 
                 

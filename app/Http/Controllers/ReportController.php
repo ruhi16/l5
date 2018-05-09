@@ -19,16 +19,31 @@ use App\Exam;
 use App\Shreny;
 use PDF;
 use App\Http\helpers;
-use App\Meritlist;
 
+use App\Meritlist;
+use App\Minelecmark;
+use Illuminate\Support\Collection;
 
 class ReportController extends Controller
 {
     public function compactMarksRegister(Request $request){
-        $students = Student::all()->sortBy('roll');
+        $students = Student::all();
+        
+        $marks = Mark::all();
+        $meritlists = Meritlist::all();
+        $minelecmarks = Minelecmark::all();
+
+        $stdy = Study::all()->sortBy('student_id');
+
+
+
 
         return view('layouts.compactMarksRegister')
             ->with('students', $students)
+            ->with('marks', $marks)
+            ->with('meritlists', $meritlists)
+            ->with('minelecmarks', $minelecmarks)
+            ->with('stdy', $stdy)
         ;
     }
 
