@@ -57,7 +57,8 @@ Route::group(['middleware' => 'admin',], function(){
 	Route::get('/compactMeritList', 'ReportController@compactMeritList');
 	Route::get('/compactMeritListHTML', 'ReportController@compactMeritListHTML');
 
-
+	Route::get('/compactMeritListBest5', 'ReportController@compactMeritListBest5');
+	Route::get('/compactMeritListBest5HTML', 'ReportController@compactMeritListBest5HTML');
 
 
 

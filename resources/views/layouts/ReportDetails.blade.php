@@ -24,7 +24,10 @@
 	<a class="btn btn-warning" href="{{url('/compactMarksRegisterHTML')}}">Compact Students Marks List PDF</a>
 	<a class="btn btn-success" href="{{url('/compactMeritList')}}">Student Merit List</a>
 	<a class="btn btn-success" href="{{url('/compactMeritListHTML')}}">Student Merit List PDF</a>
-
+	
+	<br><br>
+	<a class="btn btn-warning" href="{{url('/compactMeritListBest5')}}">Student Merit List Best of 5 Subject</a>
+	<a class="btn btn-warning" href="{{url('/compactMeritListBest5HTML')}}">Student Merit List Best of 5 Subject PDF</a>
 @endsection
 
 
