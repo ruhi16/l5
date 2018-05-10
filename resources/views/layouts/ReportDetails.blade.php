@@ -20,7 +20,8 @@
 <br><br>
 <a class="btn btn-success" href="{{url('/studentRegisterCheckList')}}">Registration Check List</a>
 <a class="btn btn-info" href="{{url('/studentRegisterCheckListHtml')}}">Registration Check List Pdf</a>
-
+<a class="btn btn-warning" href="{{url('/compactMarksRegister')}}">Compact Students Marks List</a>
+<a class="btn btn-success" href="{{url('/compactMarksRegister')}}">Student Merit List</a>
 
 @endsection
 
