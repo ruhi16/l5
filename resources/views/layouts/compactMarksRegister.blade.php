@@ -7,8 +7,56 @@
 
 @section('content')
 	<h1>Compact Marks Register</h1>
-
     <table class="table table-bordered">
+    <thead>
+
+    </thead>
+    <tbody>
+        {{--  @foreach($minelecmarks as $minelecmark)  --}}
+        @foreach($meritlists as $merit)
+        <tr>
+            <td>{{ $merit->name }}</td>
+            <td>{{ $merit->tot6subj }}</td>
+            <td>{{ $minelecmarks->where('reg', $merit->reg)->first()->minElecMark }}</td>
+            <td>{{ $merit->tot6subj - $minelecmarks->where('reg', $merit->reg)->first()->minElecMark }}</td>
+        </tr>
+        @endforeach
+        {{--  @foreach($mrks as $mark)
+        <tr>
+            <td>{{ $mark->study->sortBy('student_id') }}</td>
+            <td>{{ $mark->study->subject->subj }}</td>
+            <td>{{ $mark->thmark }}</td>
+        </tr>    
+        @endforeach  --}}
+        {{--   @php $flag = false; $reg = NULL; @endphp
+
+
+        @foreach($stdy as $std)
+            
+        @if($reg != $std->student->reg)
+            </tr>
+            <tr>
+                <td>{{ $std->student->name }}</td>
+                <td>{{ $std->student->reg }}</td>
+
+                <td>{{ $std->subject->subj }}</td>
+                <td>{{ $std->marks->where('exam_id',1)->pluck('thmark')->first() }}</td>
+                <td>{{ $std->marks->where('exam_id',1)->pluck('prmark')->first() }}</td>            
+        @else
+                <td>{{ $std->subject->subj }}</td>
+                <td>{{ $std->marks->where('exam_id',1)->pluck('thmark')->first() }}</td>
+                <td>{{ $std->marks->where('exam_id',1)->pluck('prmark')->first() }}</td>
+        @endif
+        @php $reg = $std->student->reg ; @endphp
+        @endforeach  --}}
+    </tbody>
+    
+    
+    </table>
+
+    
+
+    {{--  <table class="table table-bordered">
     <thead>
         <tr>
             <th>ID</th>
@@ -49,16 +97,16 @@
         </tr>
         @endforeach
     </tbody>
-    </table>
+    </table>  --}}
 
-
+{{--  
     @foreach($students as $student)
 
         {{ $student }}<br>
 
     @endforeach
 
-
+  --}}
 
 
 @endsection

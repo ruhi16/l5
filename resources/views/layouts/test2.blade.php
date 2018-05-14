@@ -10,7 +10,9 @@
 	
 <table class="table table-bordered" id="result">
 <thead>
-<tr><th>Name</th>
+<tr>
+  <th>ID</th>
+  <th>Name</th>
 	<th colspan="4" class="text-center">Language - I</th>
   <th colspan="4" class="text-center">Language - I</th>
 	<th colspan="4" class="text-center">Elective - I</th>
@@ -27,10 +29,11 @@
 	<?php $index = 0; $total = 0; ?>
   
 	<tr id="{{$student->id}}tr">
-		<td>{{$student->name}}<br><small>{{$student->reg}}</small></td>
+		<td><small>{{$student->id}}</small></td>
+    <td>{{$student->name}}<br><small>{{$student->reg}}</small></td>
 			
 			@foreach($student->studies as $study)
-
+        
 				<td id="{{$student->id}}sub{{$index}}">{{$study->subject->subj or ''}}</td>
 				@forelse($study->marks as $mark)
 					<td id="{{$student->id}}sub{{$index}}th">{{(int)$mark->thmark}}</td>
