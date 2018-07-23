@@ -31,14 +31,14 @@ Subject Wise Students List:
 		<td>{{$subject->subj}}</td>
 		@php $count = 0; @endphp
 		<td>
-		@php	
+		{{--  @php	
 			$index = 0;
-		@endphp
+		@endphp  --}}
 		@foreach($subject->studies as $study)	
 			@php $count++; @endphp	
-			{{--  <strong>{{$study->student->name}}</strong>({{$study->student->reg}}),  --}}
+			<strong>{{$study->student->name}}</strong>({{$study->student->reg}}),
 
-			<br/>
+			{{--  <br/>
 			@php
 				$index++;
 				$str = '
@@ -54,7 +54,7 @@ Subject Wise Students List:
 				';
 			@endphp 
 			
-			{{$str}}
+			{{$str}}  --}}
 
 		@endforeach	
 		</td>
