@@ -62,7 +62,7 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('a.dwn').each(function(index) {
-    		$(this).hide();
+    			$(this).hide();
 			});
 
 
