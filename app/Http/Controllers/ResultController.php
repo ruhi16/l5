@@ -174,7 +174,8 @@ class ResultController extends Controller
         $pdf = PDF::loadView('layouts.studentSubRegisterPdf', ['shreny'=>$shreny, 'cls'=>$cls, 'sub'=>$sub]);
 
         $pdf->setPaper('A4', 'portrate');
-        return $pdf->stream('resutlAll.pdf');
+        $str = $cls.' - '.$sub.'.pdf';
+        return $pdf->stream($str);
         //return $pdf->download('resutlAll.pdf');
         //return view('layouts.studentSubRegisterPdf')->with('shreny', $shreny)->with('cls', $cls)->with('sub', $sub);
 

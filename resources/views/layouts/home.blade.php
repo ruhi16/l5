@@ -31,9 +31,31 @@ Subject Wise Students List:
 		<td>{{$subject->subj}}</td>
 		@php $count = 0; @endphp
 		<td>
+		{{--  @php	
+			$index = 0;
+		@endphp  --}}
 		@foreach($subject->studies as $study)	
 			@php $count++; @endphp	
-			<strong>{{$study->student->name}}</strong>({{$study->student->reg}}), 
+			<strong>{{$study->student->name}}</strong>({{$study->student->reg}}),
+
+			{{--  <br/>
+			@php
+				$index++;
+				$str = '
+				<tr>
+					<td>'.$index.'</td>
+					<td>'. $study->student->name . '</td>
+					<td>'. $study->student->reg  . '</td>
+					<td>'. $study->student->roll  . '</td>
+					<td><a href="results\resultsxi2018\\'.$study->student->reg.'.pdf">Click Me</a></td>
+					<td><a href="results\resultsxi2018\\'.$study->student->reg.'.pdf" download>Click Me</a></td>
+
+				</tr>
+				';
+			@endphp 
+			
+			{{$str}}  --}}
+
 		@endforeach	
 		</td>
 		<td>{{$count}}</td>

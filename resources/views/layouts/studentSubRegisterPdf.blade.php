@@ -12,20 +12,20 @@
 <center>
 			<h1><b>Manikchak High Madrasah(H.S.)</b></h1>
 			<h5>Lalgola * Murshidabad</h5>
-			<h4><b>Manual Marks Entry Sheet</b><br>for <b>Class XI Annual Exam-2018 Subject: <u>{{$sub}}</u></b></h4>
+			<h4><b>Manual Marks Entry Sheet</b><br>for <b>Class XI Annual Exam-2019 Subject: <u>{{$sub}}</u></b></h4>
 </center>
 
 <br>
 <table border="1" width="100%" class="" style="font-size:12px;">
 	<thead>
 		<tr>
-			<th>Sl No</th>
-			<th>Roll</th>
-			<th>Name</th>
-			<th>Registration No</th>
-			<th>Theory</th>
-			<th>Project</th>
-			<th>Total</th>
+			<th class="text-center">Sl No</th>
+			<th class="text-center">Roll</th>
+			<th class="text-center">Name</th>
+			<th class="text-center">Registration No</th>
+			<th class="text-center">Theory</th>
+			<th class="text-center">Project</th>
+			<th class="text-center">Total</th>
 		</tr>
 	</thead>
 	<tbody>		
@@ -35,8 +35,8 @@
 					@php $i = 0 @endphp
 					@foreach($subject->studies as $study)
 					<tr>
-						<td>{{++$i}}</td>
-						<td></td>
+						<td class="text-center">{{++$i}}</td>
+						<td class="text-center">{{$study->student->roll}}</td>
 						<td>{{$study->student->name}}</td>
 						<td>{{$study->student->reg}}</td>
 						<td></td>
