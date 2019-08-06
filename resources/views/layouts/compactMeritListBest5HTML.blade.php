@@ -15,7 +15,7 @@
 <body>
 <center>
 <h1>Manikchak High Madrasah(H.S.)</h1>
-<h2>Class XI - 2017-18 Students Merit List Details</h2>
+<h2>Class XI - 2018-19 Students Merit List Details</h2>
 </center>
 	
     <table border="1">
@@ -38,38 +38,38 @@
     </thead>
     <tbody>
     @php $i = 0; @endphp
+        
+        @foreach($stbest5mrk->sortBy('reg') as $stmrkdetail)
+            @if($stmrkdetail->roll != 0)
+            @php $i++; @endphp
+            <tr>
+                <td>{{ $i }}</td>
+                <td>
+                    {{ $stmrkdetail->name }}<br>
+                    <small>Reg. NO: {{ $stmrkdetail->reg }}</small>
+                </td>
+                <td>{{ $stmrkdetail->roll }}</td>
+                {{--  @if(stmrkdetail->reg == $reg)  --}}
+                @php
+                    $abc = $stmrkdetails->where('reg', $stmrkdetail->reg);
 
-        @foreach($stbest5mrk as $stmrkdetail)
-        @if($stmrkdetail->roll != 0)
-        @php $i++; @endphp
-        <tr>
-            <td>{{ $i }}</td>
-            <td>
-                {{ $stmrkdetail->name }}<br>
-                <small>Reg. NO: {{ $stmrkdetail->reg }}</small>
-            </td>
-            <td>{{ $stmrkdetail->roll }}</td>
-            {{--  @if(stmrkdetail->reg == $reg)  --}}
-            @php
-                $abc = $stmrkdetails->where('reg', $stmrkdetail->reg);
 
-
-            @endphp
-
-            @foreach($abc as $a)
-            <td>
-                {{ $a->subject_shname }}<br>
-                <small>{{ (int)$a->thmark }}+{{ (int)$a->prmark }}={{ $a->thmark + $a->prmark }}</small>
-            </td>
-            @endforeach
-            <td align="center"><b>{{ (int)$stmrkdetail->total6subject }}</b></td>
-            <td align="center">{{ $stmrkdetail->subject_shname }}<br>
-                <small>{{ (int)$stmrkdetail->minOpmark }}</small>
-            </td>
-            <td align="center"><b>{{ (int)$stmrkdetail->total5subject }}</b></td>
-            <td align="center"><b>{{ $i }}</b></td>
-        </tr>
-        @endif
+                @endphp
+                
+                @foreach($abc->sortBy('subject_id') as $a)
+                <td>
+                    {{ $a->subject_shname }}<br>
+                    <small>{{ (int)$a->thmark }}+{{ (int)$a->prmark }}={{ $a->thmark + $a->prmark }}</small>
+                </td>
+                @endforeach
+                <td align="center"><b>{{ (int)$stmrkdetail->total6subject }}</b></td>
+                <td align="center">{{ $stmrkdetail->subject_shname }}<br>
+                    <small>{{ (int)$stmrkdetail->minOpmark }}</small>
+                </td>
+                <td align="center"><b>{{ (int)$stmrkdetail->total5subject }}</b></td>
+                <td align="center"><b></b></td>
+            </tr>
+            @endif
         @endforeach  
 
     </tbody>

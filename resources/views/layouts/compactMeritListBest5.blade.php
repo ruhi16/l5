@@ -28,7 +28,7 @@
     </thead>
     <tbody>
     @php $i = 0; @endphp
-
+    
         @foreach($stbest5mrk as $stmrkdetail)
         @if($stmrkdetail->roll != 0)
         @php $i++; @endphp
@@ -46,7 +46,9 @@
 
             @endphp
 
-            @foreach($abc as $a)
+
+            
+            @foreach($abc->sortBy('subject_id') as $a)
             <td>
                 {{ $a->subject_shname }}<br>
                 <small>{{ (int)$a->thmark }}+{{ (int)$a->prmark }}={{ $a->thmark + $a->prmark }}</small>
