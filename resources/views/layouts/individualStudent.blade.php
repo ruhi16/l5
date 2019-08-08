@@ -6,9 +6,12 @@
 @endsection
 
 @section('content')
+	<a href="{{url('test2')}}" class="btn btn-warning pull-right">Back</a>
 	<h1>Individual Resutlt ....</h1>
-	<table class="table table-bordered" id="myTable">
-	<caption><h2>Name: {{$student->name}}<br>Registraion No:</h2></caption>
+	<br>
+	<h2>Name: <b>{{$student->name}}</b><br>Registraion No: {{$student->reg}} (ClassRoll: {{$student->roll}})</h2>
+	{{--  <table class="table table-bordered" id="myTable">
+	<caption></caption>
 	<tr>
 		<th>Subject</th>
 		<th>Theory Marks</th>
@@ -17,37 +20,107 @@
 	</tr>
 
 	@foreach($student->studies as $std)
-  @if(isset($std->subject->subj))
-	<tr id="{{$std->subject_id}}tr">
-		<td>{{$std->subject->subj}}{{$std->id}}</td>
-		@php $flag = false; @endphp
-		@foreach($std->marks as $s)
-			@php $flag = true; @endphp
-			<td id="{{$s->id}}th">{{$s->thmark}}</td>
-			<td id="{{$s->id}}pr">{{$s->prmark}}</td>
-			<td>
-      
-			   <button class="btn btn-primary open-modal" value="{{$std->subject_id}}-{{$s->id}}">Update</button>
-      
-			</td>
-		@endforeach
+		@if(isset($std->subject->subj))
+			<tr id="{{$std->subject_id}}tr">
+				<td>{{$std->subject->subj}} (Id: {{$std->id}})</td>
+				@php $flag = false; @endphp
+				@foreach($std->marks as $s)
+					@php $flag = true; @endphp
+					<td id="{{$s->id}}th">{{$s->thmark}}</td>
+					<td id="{{$s->id}}pr">{{$s->prmark}}</td>
+					<td>
+			
+					<button class="btn btn-primary open-modal" value="{{$std->subject_id}}-{{$s->id}}">Update</button>
+			
+					</td>
+				@endforeach
 
-		@if($flag == false)
-			<td id="th"></td>
-			<td id="pr"></td>
-			<td>
-      
-			   <button class="btn btn-warning open-modal-ins" value="{{$std->id}}">Insert</button>
-      
-			<!-- <a href="{{ URL::to('/individualMarksInsert')}}" class="btn btn-success">Insert</a> -->
-			</td>
+				@if($flag == false)
+					<td id="th"></td>
+					<td id="pr"></td>
+					<td>
+			
+					<button class="btn btn-warning open-modal-ins" value="{{$std->id}}">Insert</button>
+			
+					<!-- <a href="{{ URL::to('/individualMarksInsert')}}" class="btn btn-success">Insert</a> -->
+					</td>
+				@endif
+			</tr>
 		@endif
+	@endforeach
+	</table>  --}}
+
+
+
+<table class="table table-bordered" >	
+	<tr>
+		<th>Subject</th>
+		<th>Marks ID</th>
+		<th>Theory Marks</th>
+		<th>Project Marks</th>
+		<th>Actions</th>
 	</tr>
-  @endif
+
+	@foreach($student->studies as $std)
+		@if(isset($std->subject->subj))
+			<tr id="{{$std->subject_id}}tr">
+				<td>{{$std->subject->subj}} (Id: {{$std->id}})</td>
+				@php $flag = false; @endphp
+				@foreach($std->marks as $s)
+					@php $flag = true; @endphp
+					<td>{{$s->id}}</td>
+					<td>
+						<input type="text" class="form-control" id="{{$s->id}}dirsubjectth" name="dirsubth" placeholder="" value="{{$s->thmark}}">
+					</td>
+					<td>
+						<input type="text" class="form-control" id="{{$s->id}}dirsubjectpr" name="dirsubth" placeholder="" value="{{$s->prmark}}">
+					</td>
+					<td>
+			
+					<button class="btn btn-success updt-Marks-direct" 	data-datac="{{$std->subject_id}}-{{$s->id}}">Update</button>
+			
+					</td>
+				@endforeach
+
+				@if($flag == false)
+					<td        ></td>
+					<td id="th"></td>
+					<td id="pr"></td>
+					<td>
+			
+					<button class="btn btn-warning open-modal-ins" value="{{$std->id}}">Insert</button>
+			
+					<!-- <a href="{{ URL::to('/individualMarksInsert')}}" class="btn btn-success">Insert</a> -->
+					</td>
+				@endif
+			</tr>
+		@endif
 	@endforeach
 	</table>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="{{url('bs337/js/jquery.bootstrap-grow.min.js')}}" integrity=""></script>
 <script type="text/javascript">
+
 
 $(document).ready(function(){
   	var v;
@@ -96,6 +169,44 @@ $(document).ready(function(){
 
 	});
 
+//================== Update Marks Direct =======================================
+
+	$('.updt-Marks-direct').click(function(){
+		var data = $(this).data('datac');		
+
+		var tk = '{{csrf_token()}}';
+
+		var arr = data.split('-');
+  		var v = arr[1]; //subject_id, mark_id
+		var thmrk = $('#'+arr[1]+'dirsubjectth').val();
+		var prmrk = $('#'+arr[1]+'dirsubjectpr').val();
+		//alert(data+'-'+thmr+'-'+prmr+'-'+thmrk);
+		
+
+		u = '{{route("updateMarks")}}';
+
+		$.ajax({
+			method:'post',
+			url: u,
+			data: {val: v, sth: thmrk, spr: prmrk, _token: tk},
+			success: function(msg){
+				console.log("Mark id:"+msg['mrkid']+"Th:"+msg['thm']+"Pr:"+msg['prm']);
+				$.bootstrapGrowl("Th:"+msg['thm']+", Pr:"+msg['prm']+" <br>Record Updated Successfully!",{
+					type: 'info', // success, error, info, warning
+					delay: 2000,
+				});
+			},
+			error: function(data){
+					console.log("ajax Invoked error!!! occured"+data);
+					
+					$.bootstrapGrowl("Updation Error Occured!",{
+			            type: 'warning', // success, error, info, warning
+			            delay: 2000,
+			    	});
+			}
+		}); //end of ajax function
+		
+	});
 //==============================================================================
 	var stdyId;
 	var ur;
