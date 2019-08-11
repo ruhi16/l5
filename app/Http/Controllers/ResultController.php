@@ -93,7 +93,7 @@ class ResultController extends Controller
     }
 
     public function resultTableAll(Request $request){
-        $students = Student::paginate(10);
+        $students = Student::paginate(20);
         //console.log($students);
         return view('layouts.resultTableAll')->with('students', $students);
     }
