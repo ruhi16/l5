@@ -53,7 +53,7 @@ class ResultController extends Controller
         foreach ($students as $student) {
             $qrStr = '';
 
-            $qrStr .= 'MHM-HS-19071515802-XI-An(2018)/Result-Nm:'.$student->name.' ('.$student->roll.') Rg-'.$student->reg.' ';
+            $qrStr .= 'MHM-HS-19071515802-XI-An(2019)/Result-Nm:'.$student->name.' ('.$student->roll.') Rg-'.$student->reg.' ';
             // refer to helper.php for helper function() utilised
 
             foreach ($student->studies as $study) {
@@ -101,7 +101,7 @@ class ResultController extends Controller
         $student = Student::find($request['sid']);
 
             $qrStr = '';
-            $qrStr .= 'MHM-HS-19071515802-XI-An-2018/RS-N:'.$student->name.'-'.$student->roll.'-'.$student->reg.' ';
+            $qrStr .= 'MHM-HS-19071515802-XI-An-2019/RS-N:'.$student->name.'-'.$student->roll.'-'.$student->reg.' ';
             foreach ($student->studies as $study) {
                 $qrStr .= (isset($study->subject->subj)? $study->subject->subj : '') . '-';
                 foreach ($study->marks as $mark) {
@@ -197,7 +197,7 @@ class ResultController extends Controller
     public function qrTest(){
         $qrCode = new QrCode();
         $qrCode
-            ->setText('Manichak High Madrasah(H.S.)-Annual Exam-2017 of Class-XI Name: Hari Naryan Das(Reg:410232562) Results:Bng:65+12, En')
+            ->setText('Manichak High Madrasah(H.S.)-Annual Exam-2019 of Class-XI Name: Hari Naryan Das(Reg:410232562) Results:Bng:65+12, En')
             ->setSize(100)
             ->setPadding(10)
             ->setErrorCorrection('high')
